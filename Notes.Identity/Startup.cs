@@ -27,7 +27,7 @@ public class Startup
             options.UseSqlite(connection);
         });
 
-        services.AddIdentity<AppUserConfiguration, IdentityRole>(config =>
+        services.AddIdentity<AppUser, IdentityRole>(config =>
         {
             config.Password.RequiredLength = 4;
             config.Password.RequireDigit = false;
@@ -51,6 +51,8 @@ public class Startup
             config.LoginPath = "/Auth/Login";
             config.LogoutPath = "/Auth/Logout";
         });
+
+        services.AddControllersWithViews();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -66,10 +68,7 @@ public class Startup
 
         app.UseEndpoints(endpoints =>
         {
-            endpoints.MapGet("/", async context =>
-            {
-                await context.Response.WriteAsync("Hello world!");
-            });
+            endpoints.MapDefaultControllerRoute();
         });
     }
 }
